@@ -1,0 +1,302 @@
+{% include 'manager/homebase.html' %}
+{% load static %}
+<body>
+{% include 'manager/hearder_left.html' %}
+</div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Cập nhập sản phẩm</h3>
+{#                <p class="text-subtitle text-muted">Give textual form controls like input upgrade with custom styles,#}
+{#                    sizing, focus states, and more.</p>#}
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Cập nhập sản phẩm</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Sửa</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+     <!-- Input Style start -->
+    <section id="input-style">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }}"><i class="bi bi-check-circle"></i>
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Input Style end -->
+
+
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Sửa sản phẩm</h4>
+                <p><small class="text-muted"><img src="{{ update_prod.images.url }}" style="width: 70px;height: 50px"> Ảnh đại diện</small></p>
+            </div>
+
+            <div class="card-body">
+                <form method="post" action="/loginncb/update-product/{{ update_prod.id }}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="disabledInput">Danh mục sản phẩm</label>
+                               <fieldset class="form-group">
+                                    <select name="parent" class="form-select" id="basicSelect">
+                                        <option value  {% if update_prod.category == None %} selected {% endif %}>-------</option>
+
+                                        {% for obj in get_category %}
+                                                <option value="{{ obj.id }}" {% if update_prod.category_id == obj.id %} selected="selected"{% endif %}>{{ obj }}</option>
+                                        {% endfor %}
+
+                                    </select>
+                               </fieldset>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="basicInput">Tên sản phẩm</label>
+                                <input name="title" id="title" type="text" class="form-control" id="basicInput" value="{{ update_prod.title }}" placeholder="nhập tên danh mục" onkeyup="ChangeToSlug();" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="helperText">Giá</label>
+                                <input name="price" type="number" class="form-control" id="helpInput" value="{{ update_prod.price }}" placeholder="nhập giá sản phẩm">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="helpInputTop">Giá khuyến mãi </label>
+                                <input name="promotion" type="number" class="form-control" id="dd" value="{{ update_prod.promotion }}" placeholder="nhập giá khuyến mãi">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="helpInputTop">Số lượng </label>
+                                <input name="amount" type="number" class="form-control" id="amount" value="{{ update_prod.amount }}" placeholder="nhập số lượng tồn sản phẩm">
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="helpInputTop">Từ khóa </label>
+                                <small class="text-muted">-<i>(keywords)</i></small>
+                                <input name="keywords" type="text" class="form-control" id="helpInputTop" value="{{ update_prod.keywords }}" placeholder="nhập từ khóa">
+                            </div>
+
+                            <fieldset class="form-group">
+                                    <label for="helpInputTop">Thương hiệu</label>
+                                    <select name="brands" class="form-select" id="basicSelect">
+                                        <option value  {% if update_prod.brands == None %} selected {% endif %}>-------</option>
+
+                                        {% for obj in get_brand %}
+                                                <option value="{{ obj.id }}" {% if update_prod.brands_id == obj.id %} selected="selected"{% endif %}>{{ obj }}</option>
+                                        {% endfor %}
+                                    </select>
+                               </fieldset>
+
+                            <div class="form-group">
+{#                                <label for="formFile" class="form-label">Default file input example</label>#}
+                                <label for="formFile">Thêm hình ảnh</label>
+                                <input name="image" class="form-control" type="file" id="formFile" >
+                            </div>
+                            <div class="form-group">
+                                <label for="disabledInput">Trạng thái</label>
+                               <fieldset class="form-group">
+                                    <select name="status" class="form-select" id="basicSelect">
+                                            {% for value,text in update_prod.STATUS  %}
+                                                <option value="{{ value }}" {% if update_prod.status == value %} selected="selected"{% endif %}>{{ text }}</option>
+                                            {% endfor %}
+                                    </select>
+                                </fieldset>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="helperText">Địa chỉ Url</label>
+                                <input 	onchange="getvalue()" value="{{ update_prod.slug }}" name="slug" id="slug" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <div class="alert alert-danger" id="check-url"></div>
+{#                                <p><small class="text-muted">Find helper text here for given textbox.</small></p>#}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="helperText">Mô tả ngắn</label>
+                                <textarea name="description" class="form-control" id="exampleFormControlTextarea1"  rows="3">{{ update_prod.description }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="helperText">Mô tả sản phẩm</label>
+                                <div class="card-body" style="padding:0px !important;">
+                                    <textarea name="nhat123" id="summernote">{{ update_prod.detail }}</textarea>
+                                </div>
+{#                                 <input type="hidden" id="getdataproduct" name="getdataproduct" value="3487">#}
+                            </div>
+                            <div class="col-md-12" style="padding-top: 8px">
+                                     <div class="form-group">
+                                         <p class="badge bg-light-primary">Chọn nhiều ảnh đại diện trên sản phẩm</p>
+                                     </div>
+
+                                    <div class="lightbox-gallery">
+                                        <div class="container">
+                                            <label for="helperText">Hình ảnh củ</label>
+                                            <div class="row photos">
+                                                {% for rs in get_image %}
+                                                     <div class="col-6 col-sm-6 col-lg-3 mt-2 mt-md-0 mb-md-0 mb-2">
+                                                     {% if rs.image_s.url is not None %}
+                                                        <div style="height: 200px; width: 200px;"><a href="{{ rs.image_s.url }}" data-lightbox="photos"><img class="img-fluid" src="{{ rs.image_s.url }}"></a></div>                                         <div style="padding-top: 6px; padding-bottom: 6px">
+                                                              <a href="/loginncb/delete-image/{{ rs.id }}" class="btn btn-outline-danger" onclick="return confirm('bạn có thực sự muốn xóa?')">Xóa ảnh</a>
+                                                        </div>
+                                                     {% else %}
+                                                         <span class="badge bg-light-danger">bạn chưa có hình ảnh tren sile</span>
+                                                     {% endif %}
+                                                     </div>
+                                                 {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label for="helperText">Thêm mới</label>
+{#                                        {% for test in get_image %}#}
+{#                                            <p>{{ test.image_s.url }}</p>#}
+{#                                        {% endfor %}#}
+                                        <input name="image_s" class="form-control" type="file"  multiple>
+                                    </div>
+                            </div>
+                                    <input type="hidden" id="custId" name="custId" value="{{ update_prod.id }}">
+
+                            <button id="button1" type="submit" class="btn btn-info">Sửa sản phẩm</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+
+</div>
+{% include 'manager/footer.html' %}
+
+ </div>
+</div>
+{% include 'manager/footer_javascrip.html' %}
+<script src="{%  static 'assets/vendors/jquery/jquery.min.js' %}"></script>
+<script src="{%  static 'assets/vendors/summernote/summernote-lite.min.js' %}"></script>
+<script>
+
+        $(document).on("click", '[data-toggle="lightbox"]', function(event) {
+          event.preventDefault();
+          $(this).ekkoLightbox();
+        });
+
+
+        $('input[type="text"]').on('keydown, keyup', function () {
+          //get a reference to the text input value
+          var texInputValue = $('#slug').val();
+          var textareaValue = $('#summernote').summernote('code');
+          var id_test = $('#custIdcustId').val();
+          var dataObj ={
+            'texInputValue': texInputValue,
+            'textareaValue':textareaValue,
+            'id_test':id_test,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+          }
+          $.ajax({
+            url: '/loginncb/geturlps/',
+            type: 'GET',
+            data: dataObj,
+            dataType: 'json',
+            success: function (data, status, xhr) {
+                    console.log("-------get value----------")
+                    console.log(data.get_vaule_detail)
+
+                    console.log("-------get value----------")
+                    console.log(document.getElementById("slug").value)
+                    console.log(data.check_status)
+                    if ( 1 == data.check_status){
+                        console.log("--------------")
+                        console.log("chạy nếu trung data")
+                        document.getElementById("check-url").innerHTML = data.test1;
+                        document.getElementById("button1").disabled = true;
+
+                    }else {
+                        document.getElementById("check-url").innerHTML = data.test1;
+                        document.getElementById("button1").disabled = false;
+                        console.log("--------------")
+                        console.log("data không tồn tại")
+
+                    }
+                }
+            })
+
+          //show the text input value in the UI
+          $('#message p span').html(texInputValue);
+        });
+        function getvalue() {
+        var slug = document.getElementById("slug").value;
+        var dataObj = {
+            'slug': slug,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        }
+        console.log("-------------")
+        console.log(slug)
+        console.log("--------------")
+        }
+        $('#summernote').summernote({
+        tabsize: 2,
+        height: 120,
+        })
+        $("#hint").summernote({
+            height: 100,
+            toolbar: false,
+            placeholder: 'type with apple, orange, watermelon and lemon',
+            hint: {
+                words: ['apple', 'orange', 'watermelon', 'lemon'],
+                match: /\b(\w{1,})$/,
+                search: function (keyword, callback) {
+                    callback($.grep(this.words, function (item) {
+                        return item.indexOf(keyword) === 0;
+                    }));
+                }
+            }
+        });
+</script>
+</body>

@@ -1,0 +1,216 @@
+{% include 'manager/homebase.html' %}
+
+<body>
+{% include 'manager/hearder_left.html' %}
+</div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Thêm danh mục sản phẩm</h3>
+{#                <p class="text-subtitle text-muted">Give textual form controls like input upgrade with custom styles,#}
+{#                    sizing, focus states, and more.</p>#}
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Danh mục</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Thêm</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+     <!-- Input Style start -->
+    <section id="input-style">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }}"><i class="bi bi-check-circle"></i>
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Input Style end -->
+
+
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Danh Mục</h4>
+            </div>
+
+            <div class="card-body">
+                <form method="post" action="/loginncb/add/" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="disabledInput">Danh mục cha</label>
+                               <fieldset class="form-group">
+                                    <select name="parent" class="form-select" id="basicSelect">
+                                        <option value selected>---------</option>
+                                        {% for get_parent in get_parents %}
+                                        <option value="{{ get_parent.id }}">{{ get_parent }}</option>
+                                        {% endfor %}
+                                    </select>
+                               </fieldset>
+                            </div>
+                            <div class="form-group">
+                                <label for="basicInput">Tên danh mục</label>
+                                <input name="title" id="title" type="text" class="form-control" id="basicInput" placeholder="nhập tên danh mục" onkeyup="ChangeToSlug();" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="helpInputTop">Từ khóa </label>
+                                <small class="text-muted">-<i>(keywords)</i></small>
+                                <input name="keywords" type="text" class="form-control" id="helpInputTop" placeholder="nhập từ khóa">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="helperText">Mô tả danh mục</label>
+                                <input name="description" type="text" id="helperText" class="form-control" placeholder="Nhập mô tả danh mục">
+{#                                <p><small class="text-muted">Find helper text here for given textbox.</small></p>#}
+                            </div>
+                            <button id="button1" type="submit" class="btn btn-info">Thêm danh mục</button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+{#                                <label for="formFile" class="form-label">Default file input example</label>#}
+                                <label for="formFile">Thêm hình ảnh</label>
+                                <input name="image" class="form-control" type="file" id="formFile" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="disabledInput">Trạng thái</label>
+                               <fieldset class="form-group">
+                                    <select name="status" class="form-select" id="basicSelect">
+                                        <option value="True">Hiển Thị</option>
+                                        <option value="False">Ẩn</option>
+                                    </select>
+                                </fieldset>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="helperText">Địa chỉ Url</label>
+                                <input 	onchange="getvalue()" value="{{ slug }}" name="slug" id="slug" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <div class="alert alert-danger" id="check-url"></div>
+{#                                <p><small class="text-muted">Find helper text here for given textbox.</small></p>#}
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% include 'manager/footer.html' %}
+
+ </div>
+</div>
+{% include 'manager/footer_javascrip.html' %}
+<script>
+        $('input[type="text"]').on('keydown, keyup', function () {
+          //get a reference to the text input value
+          var texInputValue = $('#slug').val();
+          console.log("========================")
+          console.log(texInputValue)
+          console.log("end-----------")
+          var dataObj ={
+            'texInputValue': texInputValue,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+          }
+          $.ajax({
+            url: '/loginncb/geturl/',
+            type: 'GET',
+            data: dataObj,
+            dataType: 'json',
+            success: function (data, status, xhr) {
+                    console.log(document.getElementById("slug").value)
+                    console.log(data.check_status)
+                    if ( 1 == data.check_status){
+                        console.log("--------------")
+                        console.log("chạy nếu trung data")
+                        document.getElementById("check-url").innerHTML = data.test1;
+                        document.getElementById("button1").disabled = true;
+
+                    }else {
+                        document.getElementById("check-url").innerHTML = data.test1;
+                        document.getElementById("button1").disabled = false;
+                        console.log("--------------")
+                        console.log("data không tồn tại")
+
+                    }
+                }
+            })
+
+          //show the text input value in the UI
+          $('#message p span').html(texInputValue);
+        });
+        function getvalue() {
+        var slug = document.getElementById("slug").value;
+        var dataObj = {
+            'slug': slug,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        }
+        console.log("-------------")
+        console.log(slug)
+        console.log("--------------")
+
+    {#    $.ajax({#}
+    {#        url: '/geturl/',#}
+    {#        type: 'GET',#}
+    {#        data: dataObj,#}
+    {#        dataType: 'json',#}
+    {#        success: function (data, status, xhr) {#}
+    {#            var hasData = false;#}
+    {#            if (data.slug != null) {#}
+    {#                document.getElementById("slug").value = data.slug;#}
+    {#                hasData = true;#}
+    {#            }#}
+    {#            if (hasData) {#}
+    {#                alert('Lấy thông tin thành công!');#}
+    {#            } else {#}
+    {#                alert('Lấy thông tin thất bại!');#}
+    {#            }#}
+    {#            a#}
+    {#        }#}
+    {#    })#}
+    {##}
+    }
+</script>
+</body>
+
+

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load humanize %}
+<head>
+    <meta charset="utf-8">
+    <title>Trang Chi tiết sản phẩm</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    {% include 'index/hometemplates/home_base.html' %}
+</head>
+<body>
+{% include 'index/hometemplates/menu.html' %}
+<!-- About Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                    <div class="about-img position-relative overflow-hidden p-5 pe-0">
+                        <img src="{{ get_detail_pro.images.url }}">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                    <h1 class="display-5 mb-4">{{ get_detail_pro.title }}</h1>
+                    <p class="mb-4">{{ get_detail_pro.description }}</p>
+                    <h4>Giá : {{ get_detail_pro.promotion|intcomma }} VND</h4>
+                    <form action="/gio-hang/add-item-cart/{{ product.id }}" method="post"  >
+                        <input type="number" class="form-control css_input_number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="1">
+                        <a class="btn btn-primary rounded-pill py-3 px-5 mt-3" href="">Thêm vào giỏ hàng</a>
+                    </form>
+                    <a rel="nofollow" href="javascript:void(0)"  onclick="gotoCart('{{get_detail_pro.id}}');">Mua ngay</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- About End -->
+
+<!-- Detail Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-12 wow fadeIn" data-wow-delay="0.1s">
+{#                    <p>{{ get_detail_pro.detail | safe }}</p>#}
+                </div>
+                <div class="col-lg-5 wow fadeIn" data-wow-delay="0.1s">
+
+                    {% for rs in comments %}
+                        <div class="reviewer">{{ rs.user }} - <span>{{ rs.create_at | date:'d-m-Y' }}</span></div>
+                        <div class="ratting">
+                                <i class="fa fa-star{% if rs.rate < 1%}-o empty{% endif%}"></i>
+                                <i class="fa fa-star{% if rs.rate < 2%}-o empty{% endif%}"></i>
+                                <i class="fa fa-star{% if rs.rate < 3%}-o empty{% endif%}"></i>
+                                <i class="fa fa-star{% if rs.rate < 4%}-o empty{% endif%}"></i>
+                                <i class="fa fa-star{% if rs.rate < 5%}-o empty{% endif%}"></i>
+                        </div>
+                        <p>
+                        {{ rs.comment }}
+                        </p>
+                    {% endfor %}
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{message.tags}}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                       <form action="/addcommentpr/{{ get_detail_pro.id }}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row g-3">
+
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <div class="ratting">
+                                        <div class="rating">
+                                            <input type="radio" id="star5" name="rate" value="5" /><label for="star5"><i class="far fa-star"></i></label>
+                                            <input type="radio" id="star4" name="rate" value="4" /><label for="star4"><i class="far fa-star"></i></label>
+                                            <input type="radio" id="star3" name="rate" value="3" /><label for="star3"><i class="far fa-star"></i></label>
+                                            <input type="radio" id="star2" name="rate" value="2" /><label for="star2"><i class="far fa-star"></i></label>
+                                            <input type="radio" id="star1" name="rate" value="1" /><label for="star1"><i class="far fa-star"></i></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" name="comment" placeholder="Lời nhắn" id="message" style="height: 200px"></textarea>
+                                    <label for="message">Bình luận</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                {% if user.id is not None %}
+                                <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Gửi bình luận</button>
+                                {%  else %}
+                                    <p>bạn cần đăng nhập để bình luận</p>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% include 'index/hometemplates/footer.html' %}
+{% include 'index/hometemplates/footer_javascrip.html' %}
+
+</body>
+
+
+</html>

@@ -1,0 +1,82 @@
+{% include 'manager/homebase.html' %}
+{% load static %}
+<body>
+{% include 'manager/hearder_left.html' %}
+</div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+        </header>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Tất cả bài viết</h3>
+            </div>
+        </div>
+    </div>
+     <!-- Input Style start -->
+
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                Hiển thị dòng trên bài viết
+            </div>
+            <div class="card-body">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th>Danh mục cha</th>
+                            <th>Tên</th>
+                            <th>description</th>
+                            <th>Đường dẫn</th>
+                            <th>Hình ảnh</th>
+                            <th>Sửa</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for get_data_Blog in get_Blog %}
+                            <tr>
+
+                                <td>{{ get_data_Blog.category }}</td>
+                                <td>{{ get_data_Blog.title }}</td>
+                                <td>{{ get_data_Blog.description }}</td>
+                                <td>{{ get_data_Blog.slug }}</td>
+                                <th><img style="height: 50px; width: 100px;" src="{{ get_data_Blog.images.url }}" alt="Product Image"></th>
+                                <td>
+                                    <p class="text-info"><a href="/loginncb/blog/update-blog/{{get_data_Blog.id}}">Sửa</a> </p>
+                                </td>
+                                <td>
+                                    <p class="text-info"><a style="color: red;" href="/loginncb/blog/delete-category/{{get_data_Blog.id}}" onclick="return confirm('bạn có thực sự muốn xóa?')">Xóa</a> </p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <p>{{ ge }}</p>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+{% include 'manager/footer.html' %}
+ </div>
+</div>
+{% include 'manager/footer_javascrip.html' %}
+<script src="{%  static 'assets/vendors/simple-datatables/simple-datatables.js' %}"></script>
+
+<script>
+    // Simple Datatable
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+</script>
+</body>
+
+
