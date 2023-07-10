@@ -1,9 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, update_session_auth_hash, logout
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+from django.urls import reverse
+
 from Order.models import Order, ProductTotalInCart
 from manage_index.models import UserProfile, Product, video_list
 from django.contrib.auth.hashers import make_password
@@ -40,7 +43,7 @@ def update_pr(request, id_user):
     try:
         get_pro = UserProfile.objects.get(user_id=id_user)
     except:
-        return render(request, 'index/user/create_profile.html')
+        return HttpResponseRedirect(reverse('create_profile'))
     if request.method == 'POST' and request.FILES:
         first = request.POST['first_name']
         last = request.POST['last']
@@ -191,6 +194,7 @@ def create_profile(request):
         current_user.email = mail
         current_user.save()
         messages.success(request, "Bạn đã cập nhập thành công!!!")
+        return HttpResponseRedirect(reverse('indexprofile'))
 
     context = {
                'current_user': current_user,

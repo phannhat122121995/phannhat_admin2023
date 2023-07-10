@@ -297,7 +297,10 @@ def orderproduct(request):
 
 def cart_item_count(request):
     cart = request.session.get('cart', {})
-    item_count = len(cart)
+    try:
+        item_count = len(cart)
+    except:
+        item_count = 0
     return JsonResponse({'count': item_count})
 
 
