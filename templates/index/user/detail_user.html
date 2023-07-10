@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load humanize %}
+<head>
+    <meta charset="utf-8">
+    <title>Thông tin</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    {% include 'index/hometemplates/home_base.html' %}
+</head>
+<body>
+{% include 'index/hometemplates/menu.html' %}
+<!-- Blog Start -->
+
+<div class="container-xxl py-5 css_top_9">
+       <h1 class="display-5 mb-3">Thông tin</h1>
+       <div class="container">
+          <div class="row">
+            <div class="col-4">
+              <img src="{{ profile.image.url }}" class="avatar img-circle img-thumbnail" alt="avatar">
+
+            </div>
+            <div class="col-8">
+                <h3>Thông tin cá nhân</h3>
+
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Họ và tên</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{ current_user.last_name }} {{ current_user.first_name }}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Email</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{ current_user.email }}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Số điện thoại</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{ profile.phone }}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Quốc gia</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{ profile.country }}</p>
+                  </div>
+                </div>
+                 <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Thành phố</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{ profile.city }}</p>
+                  </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Địa chỉ</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{ profile.address }}</p>
+                  </div>
+                </div>
+              </div>
+              <div style="padding-top: 5px">
+                  <a class="btn btn-primary rounded-pill py-sm-3 px-sm-5" href="{% url 'update_pr' current_user.id %}">Sửa</a>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+<!-- Blog End -->
+
+
+
+{% include 'index/hometemplates/footer.html' %}
+{% include 'index/hometemplates/footer_javascrip.html' %}
+
+<script>
+
+</script>
+</body>
+
+
+</html>

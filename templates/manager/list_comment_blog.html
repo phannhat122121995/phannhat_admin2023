@@ -1,0 +1,86 @@
+{% include 'manager/homebase.html' %}
+{% load static %}
+{% load humanize %}
+<body>
+{% include 'manager/hearder_left.html' %}
+</div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Danh sách bình luận</h3>
+            </div>
+        </div>
+    </div>
+     <!-- Input Style start -->
+
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                Hiển thị dòng
+            </div>
+            <div class="card-body">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Tên bài viết</th>
+                            <th>Nội dung</th>
+                            <th>Hình ảnh</th>
+                            <th>Trạng thái</th>
+                            <th>Cập nhập</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rs in get_coment %}
+                            <tr>
+                                <td>{{ rs.user }}</td>
+                                <td>{{ rs.Blog.title }}</td>
+                                <td>{{ rs.comment }}</td>
+                                {% if rs.image %}
+                                <td><img style="height: 50px; width: 100px;" src="{{ rs.image.url }}" alt="Blog Image"></td>
+                                {%  else %}
+                                 <td>Không có hình</td>
+                                {% endif %}
+                                <td>{{ rs.ip }}</td>
+                                <td>{{ rs.status }}</td>
+                                <td>
+                                    <p class="text-info"><a href="{% url 'update_list_combl' rs.id %}">Sửa</a> </p>
+                                </td>
+{#                                <td>#}
+{#                                    <p class="text-info"><a style="color: red;" href="/loginncb/delete-category/{{get_data_category.id}}" onclick="return confirm('bạn có thực sự muốn xóa?')">Xóa</a> </p>#}
+{#                                </td>#}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+{% include 'manager/footer.html' %}
+
+ </div>
+</div>
+{% include 'manager/footer_javascrip.html' %}
+<script src="{%  static 'assets/vendors/simple-datatables/simple-datatables.js' %}"></script>
+
+<script>
+    // Simple Datatable
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+</script>
+</body>
+
+

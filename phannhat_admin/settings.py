@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-6$8e=)c5bwxm#w#%p9k6w2v^@5*u249r)avlz&h%-t$9xy!fk!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ["192.168.75.104"]
 
 
 # Application definition
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'Home.apps.HomeConfig',
     'django.contrib.humanize',
     'Order.apps.OrderConfig',
+    'User.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
@@ -108,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'vi'
 
 TIME_ZONE = 'Asia/Ho_Chi_Minh'
 
@@ -133,3 +135,7 @@ LOGIN_URL = '/loginncb/login/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # Các phần mở rộng xác thực khác (nếu có)
+]

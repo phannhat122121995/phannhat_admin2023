@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load humanize %}
+<head>
+    <meta charset="utf-8">
+    <title> Thông tin chi tiết đơn hàng</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    {% include 'index/hometemplates/home_base.html' %}
+
+</head>
+<body>
+{% include 'index/hometemplates/menu.html' %}
+<!-- Blog Start -->
+
+<div class="container-xxl py-5 css_top_9">
+    <h2 class="display-5 mb-3">Thông tin chi tiết </h2>
+    <p>{{ get_pro.title }}</p>
+    <p>{{ show_message }}</p>
+    <p>{{ get_pro.pdf_file }}</p>
+    {% if get_pro.pdf_file %}
+      <a href="{{ get_pro.pdf_file.url }}" download>Tải file</a>
+    {% endif %}
+    <p>{{ get_status_s.status }}</p>
+    <p>đây là video {{ get_pro.video.url }}</p>
+    {% if get_pro.video %}
+      <video width="640" height="480" controls>
+        <source src="{{ get_pro.video.url }}" type="video/mp4">
+      </video>
+    {% else %}
+        <p>video không tồn tại </p>
+    {% endif %}
+    {% for rs in get_videos %}
+    <div style="border: 2px solid palevioletred; border-radius: 5px; padding: 5px;">
+        <h3>tiêu đề: {{ rs.title }}</h3>
+        <h6>file pdf
+            {% if rs.pdffile %}
+              <a href="{{ rs.pdffile.url }}" download>Tải file</a>
+            {% endif %}
+        </h6>
+        <h6>video: </h6>
+        {% if rs.videos %}
+          <video width="640" height="480" controls>
+            <source src="{{ rs.videos.url }}" type="video/mp4">
+          </video>
+        {% else %}
+            <p>video không tồn tại </p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Blog End -->
+{% include 'index/hometemplates/footer.html' %}
+{% include 'index/hometemplates/footer_javascrip.html' %}
+<script>
+</script>
+</body>
+
+
+</html>

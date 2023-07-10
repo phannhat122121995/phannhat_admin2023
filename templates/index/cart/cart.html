@@ -26,65 +26,51 @@
                         <div class="row d-flex justify-content-center align-items-center h-100">
                           <div class="col">
                             <p><span class="h2">Sản phẩm đang có </span><span class="h4">******</span></p>
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th scope="col">ID</th>
+                                  <th scope="col">Tên sản phẩm</th>
+                                  <th scope="col">Số lượng</th>
+                                  <th scope="col">giá</th>
+                                  <th scope="col">Tổng tiền</th>
+                                  <th scope="col">Hành động</th>
+                                </tr>
+                              </thead>
+                              <tbody>
 
-                            <div class="card mb-4">
-                              <div class="card-body p-4">
+                                  {% for rs in get_p %}
+                                    <tr>
+    {#                                  <th scope="row">1</th>#}
+                                      <td>{{ rs.id }}</td>
+                                      <td>{{ rs.title }}</td>
+                                      <td><input type="number" class="quantity-input form-control" value="{{ rs.soluong }}" min="1" data-cart-id="{{ rs.id }}"></td>
+                                      <td>{{ rs.price|intcomma }}</td>
+                                      <td>{{ rs.tong|intcomma }}</td>
+                                      <td>
+                                          <form action="{% url 'remove_from_cart' rs.id %}" method="POST">
+                                              {% csrf_token %}
+        {#                                    <td><a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a></td>#}
+                                            <button type="submit" class="btn btn-danger">Xóa</button>
+                                          </form>
+                                      </td>
+                                    </tr>
+                                  {% endfor %}
 
-                                <div class="row align-items-center">
-                                  <div class="col-md-2">
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/1.webp"
-                                      class="img-fluid" alt="Generic placeholder image">
-                                  </div>
-                                  <div class="col-md-2 d-flex justify-content-center">
-                                    <div>
-                                      <p class="small text-muted mb-4 pb-2">Name</p>
-                                      <p class="lead fw-normal mb-0">iPad Air</p>
-                                    </div>
-                                  </div>
-{#                                  <div class="col-md-2 d-flex justify-content-center">#}
-{#                                    <div>#}
-{#                                      <p class="small text-muted mb-4 pb-2">Color</p>#}
-{#                                      <p class="lead fw-normal mb-0"><i class="fas fa-circle me-2" style="color: #fdd8d2;"></i>#}
-{#                                        pink rose</p>#}
-{#                                    </div>#}
-{#                                  </div>#}
-                                  <div class="col-md-2 d-flex justify-content-center">
-                                    <div>
-                                      <p class="small text-muted mb-4 pb-2">Quantity</p>
-                                      <p class="lead fw-normal mb-0">1</p>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-2 d-flex justify-content-center">
-                                    <div>
-                                      <p class="small text-muted mb-4 pb-2">Price</p>
-                                      <p class="lead fw-normal mb-0">$799</p>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-2 d-flex justify-content-center">
-                                    <div>
-                                      <p class="small text-muted mb-4 pb-2">Total</p>
-                                      <p class="lead fw-normal mb-0">$799</p>
-                                    </div>
-                                  </div>
-                                    <div class="col-md-2 d-flex justify-content-center">
-                                    <div>
-                                      <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
 
-                                    </div>
-                                  </div>
-
-                                </div>
-
-                              </div>
-                            </div>
-
+                              </tbody>
+                            </table>
+                          {% if get_p.exists %}
+                          {% else %}
+                                <p style="text-align: center; padding-top: 10px;">Bạn chưa có sản phẩm trong giỏ hàng</p>
+                          {% endif %}
                             <div class="card mb-5">
                               <div class="card-body p-4">
 
                                 <div class="float-end">
                                   <p class="mb-0 me-5 d-flex align-items-center">
                                     <span class="small text-muted me-2">Order total:</span> <span
-                                      class="lead fw-normal">$799</span>
+                                      class="lead fw-normal">{{ sum_price|intcomma }} VND</span>
                                   </p>
                                 </div>
 
@@ -92,8 +78,11 @@
                             </div>
 
                             <div class="d-flex justify-content-end">
-                              <button type="button" class="btn btn-light btn-lg me-2">Continue shopping</button>
-                              <button type="button" class="btn btn-primary btn-lg">Add to cart</button>
+                              <button type="button"  onclick="window.location.href='{% url 'index' %}';" class="btn btn-light btn-lg me-2">Tiếp tục mua</button>
+                              {% if get_p.exists %}
+                                <button type="button" onclick="window.location.href='{% url 'checkout' %}';" class="btn btn-primary btn-lg">Tiến hành thanh toán</button>
+                              {% else %}
+                              {% endif %}
                             </div>
 
                           </div>
@@ -111,6 +100,40 @@
 {% include 'index/hometemplates/footer.html' %}
 {% include 'index/hometemplates/footer_javascrip.html' %}
 
+<script>
+    console.log("123233213123123")
+    $(document).ready(function() {
+        // Bắt sự kiện "on change" cho trường số lượng sản phẩm
+        $('.quantity-input').change(function() {
+          // Lấy cart_id từ thuộc tính data-cart-id của trường input
+          var cartId = $(this).data('cart-id');
+
+          // Lấy giá trị mới của số lượng sản phẩm từ trường input tương ứng
+          var newQuantity = $(this).val();
+          console.log(cartId)
+          console.log(newQuantity)
+
+          // Gửi yêu cầu cập nhật số lượng sản phẩm bằng AJAX
+          $.ajax({
+            url: '/gio-hang/updateid/',
+            method: 'POST',
+            data: {
+              'cart_id': cartId,
+              'new_quantity': newQuantity,
+              'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+              // Xử lý phản hồi từ server (nếu cần)
+              location.reload();
+              console.log(response.message);
+            },
+            error: function(xhr, errmsg, err) {
+              // Xử lý lỗi (nếu có)
+            }
+          });
+        });
+      });
+</script>
 </body>
 
 

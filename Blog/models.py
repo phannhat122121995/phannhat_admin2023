@@ -55,3 +55,22 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class CommentBlog(models.Model):
+    STATUS = (
+        ('New', 'Mới'),
+        ('True', 'Ẩn'),
+        ('False', 'Hiện'),
+    )
+    Blog = models.ForeignKey(Blog, on_delete=models.SET_NULL, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.TextField(blank=True)
+    image = models.ImageField(blank=True, upload_to='images/')
+    ip = models.CharField(max_length=20, blank=True)
+    status = models.CharField(max_length=10, choices=STATUS, default='New')
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.comment

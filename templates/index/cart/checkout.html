@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load humanize %}
+<head>
+    <meta charset="utf-8">
+    <title>Thanh toán</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    {% include 'index/hometemplates/home_base.html' %}
+
+</head>
+<body>
+{% include 'index/hometemplates/menu.html' %}
+<!-- Blog Start -->
+
+<div class="container-xxl py-5 css_top_9">
+        <div class="container">
+            <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+                <h1 class="display-5 mb-3">Thanh toán</h1>
+            </div>
+{#            <div class="col-sm-8">#}
+{#                <table class="table">#}
+{#                  <thead class="thead-light">#}
+{#                    <tr>#}
+{#                      <th scope="col">Tên sản phẩm</th>#}
+{#                      <th scope="col">Số lượng</th>#}
+{#                      <th scope="col">Giá</th>#}
+{#                      <th scope="col">Tổng tiền</th>#}
+{#                    </tr>#}
+{#                  </thead>#}
+{#                  <tbody>#}
+{#                    <tr>#}
+{#                    {% for rs in get_p %}#}
+{#                        <tr>#}
+{#                          <th scope="row">{{ rs.title }}</th>#}
+{#                          <td>{{ rs.soluong }}</td>#}
+{#                          <td>{{ rs.price|intcomma }}</td>#}
+{#                          <td>{{ rs.tong|intcomma }}</td>#}
+{#                        </tr>#}
+{#                    {% endfor %}#}
+{#                  </tbody>#}
+{#                </table>#}
+{#            </div>#}
+            <div>
+
+                <div class="container">
+{#                  <div class="py-5 text-center">#}
+{#                    <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">#}
+{#                    <h2>Thanh toán</h2>#}
+{#                    <p class="lead">Below is an example form built entirely with Bootstrap's form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>#}
+{#                  </div>#}
+
+                  <div class="row">
+                    <div class="col-md-4 order-md-2 mb-4">
+                      <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">Giỏ hàng của bạn</span>
+                        <span class="badge badge-secondary badge-pill">3</span>
+                      </h4>
+                      <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                          <div>
+                            <h6 class="my-0">Tổng số tiền sản phẩm</h6>
+                            <small class="text-muted">Giá</small>
+                          </div>
+                          <span class="text-muted">{{ sum_price|intcomma }} VND</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                          <div>
+                            <h6 class="my-0">Khuyến mãi</h6>
+                            <small class="text-muted">Sản phẩm kèm theo</small>
+                          </div>
+                          <span class="text-muted">0 VND</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between bg-light">
+                          <div class="text-success">
+                            <h6 class="my-0">Giảm giá %</h6>
+                            <small>Tổng số tiền</small>
+                          </div>
+                          <span class="text-success">0 VND</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                          <span>Tổng (VND)</span>
+                          <strong>{{ sum_price|intcomma }}  VND</strong>
+                        </li>
+                      </ul>
+
+                      <form class="card p-2">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Code giảm giá nếu có">
+                          <div class="input-group-append">
+                            <button type="submit" class="btn btn-secondary">kiểm tra</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-md-8 order-md-1">
+                      <h4 class="mb-3">THÔNG TIN THANH TOÁN</h4>
+                      <form class="needs-validation" novalidate="" action="{% url 'orderproduct' %}" method="POST">
+                          {% csrf_token %}
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label for="firstName">Họ</label>
+                            <input type="text" class="form-control" name="firstName" id="firstName" placeholder="" value="{{ get_pro.user.last_name }}" required="">
+                            <div class="invalid-feedback">
+                              Trường này vui lòng nhập.
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label for="lastName">Tên</label>
+                            <input type="text" class="form-control" name="lastName" id="lastName" placeholder="{{ get_pro.user.first_name }}" value="" required="">
+                            <div class="invalid-feedback">
+                              Trường này vui lòng nhập.
+                            </div>
+                          </div>
+                        </div>
+
+{#                        <div class="mb-3">#}
+{#                          <label for="username">Username</label>#}
+{#                          <div class="input-group">#}
+{#                            <div class="input-group-prepend">#}
+{#                              <span class="input-group-text">@</span>#}
+{#                            </div>#}
+{#                            <input type="text" class="form-control" id="username" placeholder="Username" required="">#}
+{#                            <div class="invalid-feedback" style="width: 100%;">#}
+{#                              Your username is required.#}
+{#                            </div>#}
+{#                          </div>#}
+{#                        </div>#}
+{##}
+{#                        <div class="mb-3">#}
+{#                          <label for="email">Email <span class="text-muted">(Optional)</span></label>#}
+{#                          <input type="email" class="form-control" id="email" placeholder="you@example.com">#}
+{#                          <div class="invalid-feedback">#}
+{#                            Please enter a valid email address for shipping updates.#}
+{#                          </div>#}
+{#                        </div>#}
+
+                        <div class="mb-3">
+                          <label for="address">Địa chỉ</label>
+                          <input type="text" class="form-control" name="address" id="address" value="{{ get_pro.address }}" placeholder="Biên Hòa - Đồng nai" required="">
+                          <div class="invalid-feedback">
+                            Bạn hãy nhập địa chỉ của bạn.
+                          </div>
+                        </div>
+
+                        <div class="mb-3">
+                          <label for="address2">Địa chỉ thứ 2 <span class="text-muted">(Optional)</span></label>
+                          <input type="text" class="form-control" name="address2" id="address2"  placeholder="Nhập địa chỉ thứ 2 nếu bạn muốn chi tiết hơn">
+                        </div>
+
+{#                        <div class="row">#}
+{#                          <div class="col-md-5 mb-3">#}
+{#                            <label for="country">Country</label>#}
+{#                            <select class="custom-select d-block w-100" id="country" required="">#}
+{#                              <option value="">Choose...</option>#}
+{#                              <option>United States</option>#}
+{#                            </select>#}
+{#                            <div class="invalid-feedback">#}
+{#                              Please select a valid country.#}
+{#                            </div>#}
+{#                          </div>#}
+{#                          <div class="col-md-4 mb-3">#}
+{#                            <label for="state">State</label>#}
+{#                            <select class="custom-select d-block w-100" id="state" required="">#}
+{#                              <option value="">Choose...</option>#}
+{#                              <option>California</option>#}
+{#                            </select>#}
+{#                            <div class="invalid-feedback">#}
+{#                              Please provide a valid state.#}
+{#                            </div>#}
+{#                          </div>#}
+{#                          <div class="col-md-3 mb-3">#}
+{#                            <label for="zip">Zip</label>#}
+{#                            <input type="text" class="form-control" id="zip" placeholder="" required="">#}
+{#                            <div class="invalid-feedback">#}
+{#                              Zip code required.#}
+{#                            </div>#}
+{#                          </div>#}
+{#                        </div>#}
+                        <hr class="mb-4">
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="same-address">
+                          <label class="custom-control-label" for="same-address">Địa chỉ giao hàng giống với địa chỉ thanh toán của tôi</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="save-info">
+                          <label class="custom-control-label" for="save-info">Lưu thông tin này cho lần sau</label>
+                        </div>
+                        <hr class="mb-4">
+
+                        <h4 class="mb-3">Thanh toán</h4>
+
+                        <div class="d-block my-3">
+                          <div class="custom-control custom-radio">
+                            <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
+                            <label class="custom-control-label" for="credit">Credit card</label>
+                          </div>
+                          <div class="custom-control custom-radio">
+                            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                            <label class="custom-control-label" for="debit">Debit card</label>
+                          </div>
+                          <div class="custom-control custom-radio">
+                            <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                            <label class="custom-control-label" for="paypal">Paypal</label>
+                          </div>
+                        </div>
+
+{#                        <div class="row">#}
+{#                          <div class="col-md-6 mb-3">#}
+{#                            <label for="cc-name">Name on card</label>#}
+{#                            <input type="text" class="form-control" id="cc-name" placeholder="" required="">#}
+{#                            <small class="text-muted">Full name as displayed on card</small>#}
+{#                            <div class="invalid-feedback">#}
+{#                              Name on card is required#}
+{#                            </div>#}
+{#                          </div>#}
+{#                          <div class="col-md-6 mb-3">#}
+{#                            <label for="cc-number">Credit card number</label>#}
+{#                            <input type="text" class="form-control" id="cc-number" placeholder="" required="">#}
+{#                            <div class="invalid-feedback">#}
+{#                              Credit card number is required#}
+{#                            </div>#}
+{#                          </div>#}
+{#                        </div>#}
+{#                        <div class="row">#}
+{#                          <div class="col-md-3 mb-3">#}
+{#                            <label for="cc-expiration">Expiration</label>#}
+{#                            <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">#}
+{#                            <div class="invalid-feedback">#}
+{#                              Expiration date required#}
+{#                            </div>#}
+{#                          </div>#}
+{#                          <div class="col-md-3 mb-3">#}
+{#                            <label for="cc-expiration">CVV</label>#}
+{#                            <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">#}
+{#                            <div class="invalid-feedback">#}
+{#                              Security code required#}
+{#                            </div>#}
+{#                          </div>#}
+{#                        </div>#}
+                        <hr class="mb-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Thanh toán với với chúng tôi</button>
+                      </form>
+                    </div>
+                  </div>
+
+{#                  <footer class="my-5 pt-5 text-muted text-center text-small">#}
+{#                    <p class="mb-1">© 2017-2018 Company Name</p>#}
+{#                    <ul class="list-inline">#}
+{#                      <li class="list-inline-item"><a href="#">Privacy</a></li>#}
+{#                      <li class="list-inline-item"><a href="#">Terms</a></li>#}
+{#                      <li class="list-inline-item"><a href="#">Support</a></li>#}
+{#                    </ul>#}
+{#                  </footer>#}
+                </div>
+
+            </div>
+
+        </div>
+</div>
+<!-- Blog End -->
+
+
+
+{% include 'index/hometemplates/footer.html' %}
+{% include 'index/hometemplates/footer_javascrip.html' %}
+
+</body>
+
+
+</html>

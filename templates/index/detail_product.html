@@ -25,11 +25,14 @@
                     <h1 class="display-5 mb-4">{{ get_detail_pro.title }}</h1>
                     <p class="mb-4">{{ get_detail_pro.description }}</p>
                     <h4>Giá : {{ get_detail_pro.promotion|intcomma }} VND</h4>
-                    <form action="/gio-hang/add-item-cart/{{ product.id }}" method="post"  >
-                        <input type="number" class="form-control css_input_number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="1">
-                        <a class="btn btn-primary rounded-pill py-3 px-5 mt-3" href="">Thêm vào giỏ hàng</a>
+                    <form method="POST" action="{% url 'add_to_cart' get_detail_pro.id %}">
+                        {% csrf_token %}
+{#                        <input type="number" class="form-control css_input_number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="1">#}
+                        <input type="number"  class="form-control css_input_number" id="quantity" name="quantity" value="1" min="1">
+{#                        <a class="btn btn-primary rounded-pill py-3 px-5 mt-3" href="">Thêm vào giỏ hàng</a>#}
+                        <button type="submit" class="btn btn-primary rounded-pill py-sm-3 px-sm-5">Add to Cart</button>
                     </form>
-                    <a rel="nofollow" href="javascript:void(0)"  onclick="gotoCart('{{get_detail_pro.id}}');">Mua ngay</a>
+{#                    <a rel="nofollow" href="javascript:void(0)"  onclick="gotoCart('{{get_detail_pro.id}}');">Mua ngay</a>#}
 
                 </div>
             </div>

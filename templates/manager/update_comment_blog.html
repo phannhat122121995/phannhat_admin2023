@@ -1,0 +1,135 @@
+{% include 'manager/homebase.html' %}
+{% block title %}Cập nhập bình luận Blog {% endblock %}
+{% load humanize %}
+{% load static %}
+<body>
+{% include 'manager/hearder_left.html' %}
+</div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Cập nhập bình luận</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Cập nhập trạng thái bình luận</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Sửa</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+     <!-- Input Style start -->
+    <section id="input-style">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }}"><i class="bi bi-check-circle"></i>
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Input Style end -->
+
+
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Chi tiết bình luận</h4>
+            </div>
+
+            <div class="card-body">
+                <form method="post" action="{% url 'update_list_combl' get_comment.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="disabledInput">User</label>
+                            <input name="name" value="{{ get_comment.user }}" id="title" type="text" class="form-control" id="basicInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="basicInput">Tên sản phẩm</label>
+                                <input name="phone" value="{{ get_comment.Blog.title }}" id="title" type="text" class="form-control" id="basicInput" >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="helpInputTop">Trạng thái hiển thị </label>
+                                <fieldset class="form-group">
+                                    <select name="status" class="form-select" id="basicSelect">
+                                            {% for value,text in get_comment.STATUS  %}
+                                                <option value="{{ value }}" {% if get_comment.status == value %} selected="selected"{% endif %}>{{ text }}</option>
+                                            {% endfor %}
+                                    </select>
+                                </fieldset>
+                            </div>
+                        <button id="button1" type="submit" class="btn btn-info">Cập nhập</button>
+                        </div>
+                        <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="disabledInput">Địa chỉ</label>
+                                <input name="address" value="{{ get_comment.ip }}" id="title" type="text" class="form-control" id="basicInput" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="basicInput">Bình luận</label>
+                                    <input name="note" value="{{ get_comment.comment }}" id="title" type="text" class="form-control" id="basicInput" >
+                                </div>
+                        </div>
+                        <div class="col-md-3">
+                                <div class="form-group">
+                                <label for="disabledInput">Hình ảnh</label>
+                                {% if rs.image %}
+                                <img style="height: 200px; width: 400px;" src="{{ rs.image.url }}" alt="Blog Image">
+                                {%  else %}
+                                    <h3>Không có hình</h3>
+                                {% endif %}
+                                </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% include 'manager/footer.html' %}
+
+ </div>
+</div>
+{% include 'manager/footer_javascrip.html' %}
+<script>
+</script>
+</body>
+
+

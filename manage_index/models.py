@@ -66,11 +66,21 @@ class Product(models.Model):
     promotion = models.DecimalField(max_digits=15, decimal_places=0, null=True, default=0)
     amount = models.IntegerField(default=0)
     slug = models.SlugField(max_length=255)
+    video = models.FileField(upload_to='videos/', blank=True)
+    pdf_file = models.FileField(upload_to='filepdf/', blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
+
+
+class video_list(models.Model):
+    title = models.CharField(max_length=255, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
+    ordinal_numbers = models.IntegerField(blank=True)
+    videos = models.FileField(upload_to='videos/', blank=True)
+    pdffile = models.FileField(upload_to='filepdf/', blank=True)
 
 
 class Imagss(models.Model):
@@ -91,7 +101,7 @@ class ProductForm(ModelForm):
             ('False', 'ẩn'),
         ]
         model = Product
-        fields = ['category', 'brands', 'title', 'keywords', 'description', 'detail', 'images', 'status', 'price', 'promotion', 'amount','slug']
+        fields = ['category', 'brands', 'title', 'keywords', 'description', 'detail', 'images', 'status', 'price', 'promotion', 'amount', 'slug', 'video', 'pdf_file']
         widgets = {
             'title': TextInput(attrs={'class': 'form-control','id': 'title', 'placeholder': 'Tiêu đề', 'onkeyup':'ChangeToSlug();'}),
             'keywords': TextInput(attrs={'class': 'form-control', 'placeholder': 'keywords', 'required': False}),
@@ -105,6 +115,8 @@ class ProductForm(ModelForm):
             'promotion': NumberInput(attrs={'class': 'form-control', 'minlength': 10, 'maxlength': 15, 'required': True, 'type': 'number', }),
             'amount': NumberInput(attrs={'class': 'form-control', 'minlength': 10, 'maxlength': 15, 'required': True, 'type': 'number', }),
             'slug': TextInput(attrs={'class': 'form-control', 'id': 'slug', 'onchange': 'getvalue()'}),
+            'video': FileInput(attrs={'class': 'form-control'}),
+            'pdf_file': FileInput(attrs={'class': 'form-control'}),
         }
         labels = {
             'title': 'Tiêu đề bài viết',
@@ -117,7 +129,8 @@ class ProductForm(ModelForm):
             'price': 'Giá sản phẩm',
             'promotion': 'Giá khuyễn mãi',
             'amount': 'Số lượng',
-            'slug': 'Url',
+            'video': 'videos',
+            'pdf_file': 'file pdf',
         }
 
 

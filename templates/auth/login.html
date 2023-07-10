@@ -22,7 +22,6 @@
                     <div class="col-lg-4">
                         <div class="col-md-12 col-12">
                         <div class="card">
-{#                            <p class="css_9d">ssssssssssssssss</p>#}
                             <div class="card-header">
                                 <h4 class="card-title css_phannhat">Đăng nhập tới quảng trị</h4>
                             </div>
@@ -63,16 +62,11 @@
                                                         {{ error_message }}</p>
                                                     </div>
                                                     {% endif %}
-{#                                                    <div class="form-check">#}
-{#                                                        <div class="checkbox mt-2">#}
-{#                                                            <input type="checkbox" id="remember-me-v" class="form-check-input" checked="">#}
-{#                                                            <label for="remember-me-v">Remember Me</label>#}
-{#                                                        </div>#}
-{#                                                    </div>#}
                                                 </div>
                                                 <div class="col-12 d-flex justify-content-end">
                                                     <button type="submit" class="btn btn-primary me-1 mb-1">Đăng nhập</button>
-                                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">Lấy lại mật khẩu
+{#                                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">Lấy lại mật khẩu</button>#}
+                                                    <a class="btn btn-light-secondary me-1 mb-1" href="{% url 'register' %}">Đăng ký mới</a>
                                                 </div>
                                             </div>
                                         </div>

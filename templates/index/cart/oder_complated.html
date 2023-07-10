@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load humanize %}
+<head>
+    <meta charset="utf-8">
+    <title>Đặt hàng thành công</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    {% include 'index/hometemplates/home_base.html' %}
+</head>
+<body>
+{% include 'index/hometemplates/menu.html' %}
+<!-- Blog Start -->
+
+<div class="container-xxl py-5 css_top_9">
+        <div class="container">
+            <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+                <h1 class="display-5 mb-3">Thanh toán thành công</h1>
+            </div>
+            <div class="row g-4">
+                <section class="vh-100" style="background-color: #fdccbc;">
+                      <div class="container h-100">
+                          <h2>Cám ơn bạn đã đặt hàng tới chúng tôi</h2>
+                          <h4>Mã số hóa đơn của bạn là: {{ ordercode }}</h4>
+                      </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+<!-- Blog End -->
+
+
+
+{% include 'index/hometemplates/footer.html' %}
+{% include 'index/hometemplates/footer_javascrip.html' %}
+
+
+</body>
+
+
+</html>

@@ -39,7 +39,7 @@ class Order(models.Model):
 
 
 class ProductTotalInCart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    # user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()

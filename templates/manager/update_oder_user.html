@@ -1,0 +1,155 @@
+{% include 'manager/homebase.html' %}
+{% block title %}Cập nhập oder {% endblock %}
+{% load humanize %}
+{% load static %}
+<body>
+{% include 'manager/hearder_left.html' %}
+</div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Cập nhập đơn hàng</h3>
+{#                <p class="text-subtitle text-muted">Give textual form controls like input upgrade with custom styles,#}
+{#                    sizing, focus states, and more.</p>#}
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Cập nhập đơn hàng</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Sửa</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+     <!-- Input Style start -->
+    <section id="input-style">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }}"><i class="bi bi-check-circle"></i>
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Input Style end -->
+
+
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Chi tiết đơn đặt hàng</h4>
+            </div>
+
+            <div class="card-body">
+                <form method="post" action="{% url 'update_oder_user' get_oder.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="disabledInput">Họ tên</label>
+                            <input name="name" value="{{ get_oder.Name }}" id="title" type="text" class="form-control" id="basicInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="basicInput">Số điện thoại</label>
+                                <input name="phone" value="{{ get_oder.Phone }}" id="title" type="text" class="form-control" id="basicInput" >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="helpInputTop">Trạng thái đơn hàng </label>
+                                <fieldset class="form-group">
+                                    <select name="status" class="form-select" id="basicSelect">
+                                            {% for value,text in get_oder.STATUS  %}
+                                                <option value="{{ value }}" {% if get_oder.status == value %} selected="selected"{% endif %}>{{ text }}</option>
+                                            {% endfor %}
+                                    </select>
+                                </fieldset>
+                            </div>
+                        <button id="button1" type="submit" class="btn btn-info">Cập nhập</button>
+                        </div>
+                        <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="disabledInput">Địa chỉ</label>
+                                <input name="address" value="{{ get_oder.Address }}" id="title" type="text" class="form-control" id="basicInput" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="basicInput">Ghi chú</label>
+                                    <input name="note" value="{{ get_oder.note }}" id="title" type="text" class="form-control" id="basicInput" >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="helpInputTop">Tổng tiền </label>
+                                    <h3>{{ get_oder.total| floatformat | intcomma:False  }} VND</h3>
+                                </div>
+
+                        </div>
+
+                        <div>
+                            <table class="table">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th scope="col">Tên sản phẩm</th>
+                                  <th scope="col">Số lượng</th>
+                                  <th scope="col">Tổng tiền</th>
+                                  <th scope="col">Ngày giờ Oder</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for rs in orderitems %}
+                                    <tr>
+                                      <th scope="row">{{ rs.product.title }}</th>
+                                      <td>{{ rs.quantity }}</td>
+                                      <td>{{ rs.price | floatformat | intcomma:False }}</td>
+                                      <td>{{ rs.create_at }}</td>
+                                    </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% include 'manager/footer.html' %}
+
+ </div>
+</div>
+{% include 'manager/footer_javascrip.html' %}
+<script>
+</script>
+</body>
+
+

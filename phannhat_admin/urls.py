@@ -26,7 +26,8 @@ urlpatterns = [
     path('loginncb/blog/', include('Blog.urls')),
     path('register/', views.register, name='register'),
     path('gio-hang/', include('Order.urls')),
-    path('', include('Home.urls'))
+    path('', include('Home.urls')),
+    path('user/', include('User.urls'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

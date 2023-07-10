@@ -22,7 +22,7 @@
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Cập nhập sản phẩm</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'index_product' %}">Cập nhập sản phẩm</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Sửa</li>
                     </ol>
                 </nav>
@@ -108,6 +108,11 @@
                                 <label for="helpInputTop">Số lượng </label>
                                 <input name="amount" type="number" class="form-control" id="amount" value="{{ update_prod.amount }}" placeholder="nhập số lượng tồn sản phẩm">
                             </div>
+                            <div class="form-group">
+{#                                <label for="formFile" class="form-label">Default file input example</label>#}
+                                <label for="formFile">videos</label>
+                                <input name="file_video" class="form-control" type="file" id="formFile1" >
+                            </div>
 
                         </div>
                         <div class="col-md-6">
@@ -142,6 +147,12 @@
                                             {% endfor %}
                                     </select>
                                 </fieldset>
+                            </div>
+
+                            <div class="form-group">
+{#                                <label for="formFile" class="form-label">Default file input example</label>#}
+                                <label for="formFile">file pdf</label>
+                                <input name="file_pdf" class="form-control" type="file" id="formFile1" >
                             </div>
 
                             <div class="form-group">

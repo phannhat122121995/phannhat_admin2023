@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
-{% load humanize %}
+    {% load humanize %}
 <head>
     {% include 'index/hometemplates/home_base.html' %}
 </head>
@@ -162,8 +162,15 @@
                                             <a class="text-body" href="/san-pham/{{rs.slug}}"><i class="fa fa-eye text-primary me-2"></i>Xem chi tiết</a>
                                         </small>
                                         <small class="w-50 text-center py-2">
-                                            <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Thêm vào giỏ</a>
+                                        <form method="POST" action="{% url 'add_to_cart' rs.id %}">
+                                            {% csrf_token %}
+                                                <input type="hidden"  class="form-control css_input_number" id="quantity" name="quantity" value="1" min="1">
+                                                <button style="border: none;background-color: white;" type="submit" ><i class="fa fa-shopping-bag text-primary me-2"></i>Thêm vào giỏ</button>
+                                        </form>
                                         </small>
+{#                                        <small class="w-50 text-center py-2">#}
+{#                                            <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Thêm vào giỏ</a>#}
+{#                                        </small>#}
                                     </div>
                                 </div>
                             </div>
