@@ -9,9 +9,11 @@ from manage_index.models import Product, CommentPro
 
 def index(request):
     get_pro = Product.objects.all()
+
     context = {
         'get_pro': get_pro,
     }
+    return render(request, "index/update/index.html", context)
     return render(request, "index/index.html", context)
 
 
@@ -23,6 +25,7 @@ def detai_product(request, slug):
         'get_detail_pro': get_detail_pro,
         'comments': comments,
     }
+    return render(request, "index/update/detail_product.html", context)
     return render(request, "index/detail_product.html", context)
 
 
