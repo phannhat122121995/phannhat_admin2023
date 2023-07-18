@@ -83,6 +83,21 @@ class video_list(models.Model):
     pdffile = models.FileField(upload_to='filepdf/', blank=True)
 
 
+class couse_title(models.Model):
+    title = models.CharField(max_length=255, blank=True)
+    ordinal_numbers = models.IntegerField(blank=True, default=1)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
+
+
+class cource_video(models.Model):
+    title = models.CharField(max_length=255, blank=True)
+    cource = models.ForeignKey(couse_title, on_delete=models.SET_NULL, blank=True, null=True)
+    ordinal_numbers = models.IntegerField(blank=True)
+    titlevideo = models.CharField(max_length=255, blank=True)
+    videos = models.FileField(upload_to='videos/', blank=True)
+    pdffile = models.FileField(upload_to='filepdf/', blank=True)
+
+
 class Imagss(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
     # title_im = models.CharField(max_length=200, blank=True)

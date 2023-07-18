@@ -1,0 +1,119 @@
+{% include 'manager/homebase.html' %}
+
+<body>
+{% include 'manager/hearder_left.html' %}
+</div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Sữa nhãn</h3>
+{#                <p class="text-subtitle text-muted">Give textual form controls like input upgrade with custom styles,#}
+{#                    sizing, focus states, and more.</p>#}
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Cập nhập</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Thêm</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+     <!-- Input Style start -->
+    <section id="input-style">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }}"><i class="bi bi-check-circle"></i>
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Input Style end -->
+
+
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Sửa nhãn</h4>
+            </div>
+
+            <div class="card-body">
+                <form method="post" action="{% url 'update_title_video' get_video.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                               <label for="disabledInput">Chọn khóa học</label>
+                                   <fieldset class="form-group">
+                                      <select name="title_pro" class="form-select" id="basicSelect">
+                                        <option value="{{ get_video.product.id }}" selected="selected">{{ get_video.product.title }}</option>
+                                        {% for value in gettitle %}
+                                          {% if value.id != get_video.product.id %}
+                                            <option value="{{ value.id }}">{{ value.title }}</option>
+                                          {% endif %}
+                                        {% endfor %}
+                                      </select>
+                                    </fieldset>
+                            </div>
+                            <div class="form-group">
+                                <label for="basicInput">Tên video</label>
+                                <input name="title" id="title" type="text" class="form-control" id="basicInput" value="{{ get_video.title }}" placeholder="nhập tên video" >
+                            </div>
+                            <button id="button1" type="submit" class="btn btn-info">Sữa nhãn</button>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                                <label for="helpInputTop">Số thứ tự video</label>
+                                <small class="text-muted">-<i>(STT:1,2,3,..)</i></small>
+                                <input name="get_number" type="number" class="form-control" id="helpInputTop" value="{{ get_video.ordinal_numbers }}" min="1" max="12000">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% include 'manager/footer.html' %}
+
+ </div>
+</div>
+{% include 'manager/footer_javascrip.html' %}
+<script>
+</script>
+</body>
+
+

@@ -32,6 +32,14 @@ urlpatterns = [
     path('list-vides-show/', views.listvideoall, name="listvideoall"),
     path('update-videos/<int:id>', views.update_list_video, name="update_list_video"),
     path('delete-videos/<int:id>', views.delete_videos, name="delete_videos"),
+    path('add-title-video/', views.addtitlevideo, name="addtitlevideo"),
+    path('list-title-videos/', views.gettitlevides, name="gettitlevides"),
+    path('update-title-videos/<int:id>', views.update_title_video, name="update_title_video"),
+    path('delete-title-videos/<int:id>', views.delete_title_video, name="delete_title_video"),
+    path('add-videos-pdf/', views.addvideopdf, name="addvideopdf"),
+    path('update-videos-pdf/<int:id>', views.updatevideopdf, name="updatevideopdf"),
+    path('list-videos-pdf/', views.getlistvideopdf, name="getlistvideopdf"),
+    path('delete-videos-pdf/<int:id>', views.delete_video_pdf, name="delete_video_pdf"),
     # path('register/', views.register, name='register'),
 ]
 

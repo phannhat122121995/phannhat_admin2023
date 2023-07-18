@@ -222,18 +222,48 @@
 {#                </a>#}
 {#            </li>#}
 {##}
+{#            <li#}
+{#                class="sidebar-item  has-sub">#}
+{#                <a href="#" class='sidebar-link'>#}
+{#                    <i class="bi bi-file-earmark-spreadsheet-fill"></i>#}
+{#                    <span>Danh sách videos</span>#}
+{#                </a>#}
+{#                <ul class="submenu ">#}
+{#                    <li class="submenu-item ">#}
+{#                        <a href="{% url 'addlistvideo' %}">Thêm mới</a>#}
+{#                    </li>#}
+{#                    <li class="submenu-item ">#}
+{#                        <a href="{% url 'listvideoall' %}">Danh sách</a>#}
+{#                    </li>#}
+{#                </ul>#}
+{#            </li>#}
             <li
                 class="sidebar-item  has-sub">
                 <a href="#" class='sidebar-link'>
                     <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                    <span>Danh sách videos</span>
+                    <span>Danh sách nhãn</span>
                 </a>
                 <ul class="submenu ">
                     <li class="submenu-item ">
-                        <a href="{% url 'addlistvideo' %}">Thêm mới</a>
+                        <a href="{% url 'addtitlevideo' %}">Thêm mới nhãn</a>
                     </li>
                     <li class="submenu-item ">
-                        <a href="{% url 'listvideoall' %}">Danh sách</a>
+                        <a href="{% url 'gettitlevides' %}">Danh sách nhãn</a>
+                    </li>
+                </ul>
+            </li>
+                        <li
+                class="sidebar-item  has-sub">
+                <a href="#" class='sidebar-link'>
+                    <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                    <span>Danh sách File và videos</span>
+                </a>
+                <ul class="submenu ">
+                    <li class="submenu-item ">
+                        <a href="{% url 'addvideopdf' %}">Thêm mới nhãn</a>
+                    </li>
+                    <li class="submenu-item ">
+                        <a href="{% url 'getlistvideopdf' %}">Danh sách nhãn</a>
                     </li>
                 </ul>
             </li>

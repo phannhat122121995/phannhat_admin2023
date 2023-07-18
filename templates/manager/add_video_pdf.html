@@ -1,0 +1,145 @@
+{% include 'manager/homebase.html' %}
+
+<body>
+{% include 'manager/hearder_left.html' %}
+</div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Thêm video</h3>
+{#                <p class="text-subtitle text-muted">Give textual form controls like input upgrade with custom styles,#}
+{#                    sizing, focus states, and more.</p>#}
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Thêm video hoặc pdf file</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Thêm</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+     <!-- Input Style start -->
+    <section id="input-style">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }}"><i class="bi bi-check-circle"></i>
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Input Style end -->
+
+
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Thêm các trường dưới đây</h4>
+            </div>
+
+            <div class="card-body">
+                <form method="post" action="{% url 'addvideopdf' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="disabledInput">Chọn nhãn trong khóa học</label>
+                               <fieldset class="form-group">
+                                    <select name="title_pro" class="form-select" id="basicSelect">
+                                        {% for rs in gettitle %}
+                                        <option value="{{ rs.id }}">{{ rs.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                               </fieldset>
+                            </div>
+                            <div class="form-group">
+                                <label for="basicInput">Tên file pdf</label>
+                                <input name="title" id="title" type="text" class="form-control" id="basicInput" placeholder="nhập tên video" >
+                            </div>
+                            <div class="form-group">
+                                <label for="basicInput">File PDF</label>
+                                <input name="filepdf" id="fileInput" type="file" class="form-control" id="basicInput" placeholder="nhập file" >
+                            </div>
+                            <button id="button1" type="submit" class="btn btn-info" >Thêm danh mục</button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="basicInput">Tên video</label>
+                                <input name="titlevideo" id="title1" type="text" class="form-control" id="basicInput" placeholder="nhập tên video" >
+                            </div>
+                            <div class="form-group">
+                                <label for="formFile">Thêm video</label>
+                                <small class="text-muted">-<i>Lưu ý chỉ thêm một video cho một lần</i></small>
+                                <input name="videos" class="form-control" type="file" id="fileInput123" >
+                            </div>
+                           <div class="form-group">
+                                <label for="helpInputTop">Số thứ tự hiển thị</label>
+                                <small class="text-muted">-<i>(STT:1,2,3,..)</i></small>
+                                <input name="get_number" type="number" class="form-control" id="helpInputTop" value="1" min="1" max="12000">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% include 'manager/footer.html' %}
+
+ </div>
+</div>
+{% include 'manager/footer_javascrip.html' %}
+<script>
+      function checkFormat() {
+          var fileInput = document.getElementById('fileInput');
+          var file = fileInput.files[0];
+          var allowedExtensions = ['pdf'];
+          var allowedMimeType = 'video/mp4';
+
+          var fileExtension = file.name.split('.').pop().toLowerCase();
+
+          if (allowedExtensions.includes(fileExtension)) {
+            alert('Định dạng file hợp lệ.');
+          } else if (file.type === allowedMimeType) {
+            alert('Định dạng video hợp lệ.');
+          } else {
+            alert('Định dạng không hợp lệ.');
+          }
+      }
+</script>
+</body>
+
+

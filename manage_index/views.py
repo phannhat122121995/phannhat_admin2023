@@ -12,7 +12,7 @@ from django.urls import reverse
 from Blog.models import CommentBlog, Blog
 from Order.models import Order, ProductTotalInCart
 from manage_index.models import Category, Brands, Product, ProductForm, ImagssForm, Imagss, CreateUserForm, UserProfile, \
-    CommentCourse, CommentPro, video_list
+    CommentCourse, CommentPro, video_list, couse_title, cource_video
 
 
 @login_required
@@ -932,4 +932,223 @@ def delete_videos(request, id):
         delete_pro = video_list.objects.get(id=id)
         delete_pro.delete()
         return HttpResponseRedirect(reverse('listvideoall'))
-    return render(request, 'manager/update_videos.html')
+    return render(request, 'index/index.html')
+
+
+@login_required
+def addtitlevideo(request):
+    if request.user.is_staff:
+        gettitle = Product.objects.all()
+        if request.method == 'POST' or request.FILES:
+            title_pro = request.POST['title_pro']
+            title = request.POST['title']
+            get_number = request.POST['get_number']
+            data = couse_title()
+            data.product_id = title_pro
+            data.title = title
+            data.ordinal_numbers = get_number
+            data.save()
+            messages.success(request, 'Bạn đã thêm video thành công')
+        else:
+            messages.warning(request, 'Thêm không thành công')
+        context = {
+            'gettitle': gettitle,
+        }
+        return render(request, 'manager/add_title_videos.html', context)
+    return render(request, 'index/index.html')
+
+
+@login_required
+def gettitlevides(request):
+    if request.user.is_staff:
+        gettitle = couse_title.objects.all()
+        context = {
+            'gettitle':gettitle,
+        }
+        return render(request, 'manager/list_title_videos.html', context)
+    return render(request, 'index/index.html')
+
+
+@login_required
+def update_title_video(request, id):
+    if request.user.is_staff:
+        gettitle = Product.objects.all()
+        get_video = couse_title.objects.get(id=id)
+        if request.method == 'POST' or request.FILES:
+            title_pro = request.POST['title_pro']
+            title = request.POST['title']
+            get_number = request.POST['get_number']
+
+            get_video.product_id = title_pro
+            get_video.title = title
+            get_video.ordinal_numbers = get_number
+            get_video.save()
+            messages.success(request, 'Bạn đã sửa thành công')
+        else:
+            messages.warning(request, 'Thêm không thành công')
+        context = {
+            'gettitle': gettitle,
+            'get_video': get_video,
+        }
+        return render(request, 'manager/update_title_videos.html', context)
+    return render(request, 'index/index.html')
+
+
+@login_required
+def delete_title_video(request, id):
+    if request.user.is_staff:
+        delete_pro = couse_title.objects.get(id=id)
+        delete_pro.delete()
+        return HttpResponseRedirect(reverse('gettitlevides'))
+    return render(request, 'index/index.html')
+
+
+@login_required
+def addvideopdf(request):
+    if request.user.is_staff:
+        gettitle = couse_title.objects.all()
+        if request.method == 'POST' and request.FILES:
+            title_pro = request.POST['title_pro']
+            title = request.POST['title']
+            get_number = request.POST['get_number']
+            titlevideo = request.POST['titlevideo']
+            try:
+                videos = request.FILES['videos']
+                allowed_extension = '.mp4'
+                file_extension = '.' + videos.name.split('.')[-1].lower()
+
+                if file_extension != allowed_extension:
+                    messages.warning(request, 'file không phải là mp4')
+                    context = {
+                        'gettitle': gettitle,
+                    }
+                    return render(request, 'manager/add_video_pdf.html', context)
+            except:
+                pass
+            data = cource_video()
+            try:
+                filepdf = request.FILES['filepdf']
+                print("--------------------")
+                print(filepdf)
+                print("--------------------")
+                data.pdffile = filepdf
+            except:
+                pass
+            try:
+                videos = request.FILES['videos']
+                data.videos = videos
+            except:
+                pass
+            data.cource_id = title_pro
+            data.title = title
+            data.titlevideo = titlevideo
+            data.ordinal_numbers = get_number
+            data.save()
+            messages.success(request, 'Bạn đã thêm video thành công')
+        else:
+            if request.method == 'POST':
+                title_pro = request.POST['title_pro']
+                title = request.POST['title']
+                get_number = request.POST['get_number']
+                titlevideo = request.POST['titlevideo']
+                data = cource_video()
+                data.cource_id = title_pro
+                data.title = title
+                data.titlevideo = titlevideo
+                data.ordinal_numbers = get_number
+                data.save()
+                messages.success(request, 'Bạn đã thêm video thành công, nhưng không kèm file nào cả')
+            else:
+                messages.warning(request, 'Thêm không thành công')
+        context = {
+            'gettitle': gettitle,
+        }
+        return render(request, 'manager/add_video_pdf.html', context)
+    return render(request, 'index/index.html')
+
+
+@login_required
+def updatevideopdf(request, id):
+    if request.user.is_staff:
+        print("--------------")
+        print(id)
+        print("--------------")
+        gettitle = couse_title.objects.all()
+        get_video = cource_video.objects.get(id=id)
+        if request.method == 'POST' and request.FILES:
+            title_pro = request.POST['title_pro']
+            title = request.POST['title']
+            get_number = request.POST['get_number']
+            titlevideo = request.POST['titlevideo']
+            try:
+                videos = request.FILES['videos']
+                allowed_extension = '.mp4'
+                file_extension = '.' + videos.name.split('.')[-1].lower()
+
+                if file_extension != allowed_extension:
+                    messages.warning(request, 'file không phải là mp4')
+                    context = {
+                        'gettitle': gettitle,
+                    }
+                    return render(request, 'manager/add_video_pdf.html', context)
+            except:
+                pass
+            try:
+                filepdf = request.FILES['filepdf']
+                print("--------------------")
+                print(filepdf)
+                print("--------------------")
+                get_video.pdffile = filepdf
+            except:
+                pass
+            try:
+                videos = request.FILES['videos']
+                get_video.videos = videos
+            except:
+                pass
+            get_video.cource_id = title_pro
+            get_video.title = title
+            get_video.titlevideo = titlevideo
+            get_video.ordinal_numbers = get_number
+            get_video.save()
+            messages.success(request, 'Bạn đã sửa thành công')
+        else:
+            if request.method == 'POST':
+                title_pro = request.POST['title_pro']
+                title = request.POST['title']
+                get_number = request.POST['get_number']
+                titlevideo = request.POST['titlevideo']
+                get_video.cource_id = title_pro
+                get_video.title = title
+                get_video.titlevideo = titlevideo
+                get_video.ordinal_numbers = get_number
+                get_video.save()
+                messages.success(request, 'Bạn đã sửa thành công, nhưng không kèm file nào cả')
+            else:
+                messages.warning(request, 'Sửa không thành công')
+        context = {
+            'get_video': get_video,
+            'gettitle':gettitle,
+        }
+        return render(request, 'manager/update_video_pdf.html', context)
+    return render(request, 'index/index.html')
+
+
+@login_required
+def getlistvideopdf(request):
+    if request.user.is_staff:
+        gettitle = cource_video.objects.all()
+        context = {
+            'gettitle':gettitle,
+        }
+        return render(request, 'manager/list_video_pdf.html', context)
+    return render(request, 'index/index.html')
+
+
+@login_required
+def delete_video_pdf(request, id):
+    if request.user.is_staff:
+        delete_pro = cource_video.objects.get(id=id)
+        delete_pro.delete()
+        return HttpResponseRedirect(reverse('getlistvideopdf'))
+    return render(request, 'index/index.html')
