@@ -174,10 +174,10 @@ def cart(request):
         'get_p': get_p,
         'sum_price': sum_price,
     }
-    return render(request, "index/cart/cart.html", context)
+    return render(request, "index/update/cart/cart.html", context)
+    # return render(request, "index/cart/cart.html", context)
 
 def remove_from_cart(request, product_id):
-    print("-----===---------")
     if 'cart' in request.session:
         cart = request.session['cart']
         if str(product_id) in cart:
@@ -225,7 +225,8 @@ def checkout(request):
         'sum_price': sum_price,
         'get_pro': get_pro,
     }
-    return render(request, "index/cart/checkout.html", context)
+    return render(request, "index/update/cart/checkout.html", context)
+    # return render(request, "index/cart/checkout.html", context)
 
 
 def orderproduct(request):
@@ -290,9 +291,10 @@ def orderproduct(request):
             context = {
                 'ordercode': ordercode,
             }
-            return render(request, "index/cart/oder_complated.html", context)
-
-    return render(request, "index/cart/checkout.html")
+            return render(request, "index/update/cart/oder_complated.html", context)
+            # return render(request, "index/cart/oder_complated.html", context)
+    return render(request, "index/update/cart/checkout.html")
+    # return render(request, "index/cart/checkout.html")
 
 
 def cart_item_count(request):

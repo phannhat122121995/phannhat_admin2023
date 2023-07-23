@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load humanize %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Thông tin đơn hàng</title>
+
+    {% include 'index/update/base/home_base.html' %}
+    </head>
+    <body>
+
+   {% include 'index/update/base/menu.html' %}
+    <!-- ***** Main Banner Area Start ***** -->
+    <div id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Thông tin đơn hàng</li>
+                      </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-12">
+                    <h1 class="display-5 mb-3">Thông tin đơn hàng</h1>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">Mã đơn hàng</th>
+                              <th scope="col">Tổng tiền</th>
+                              <th scope="col">Ngày mua</th>
+                              <th scope="col">Trạng thái</th>
+                              <th scope="col">Xem chi tiết</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {% for rs in order %}
+                            <tr>
+                              <th scope="row">{{ rs.id }}</th>
+                              <td>{{ rs.code }}</td>
+                              <td>{{ rs.total | intcomma:False }}</td>
+                              <td>{{ rs.create_at }}</td>
+                              <td>{{ rs.status }}</td>
+                              <td><a href="{% url 'detail_oder' rs.id %}" >Xem</a></td>
+                            </tr>
+                          {% endfor %}
+                          </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Main Banner Area End ***** -->
+    {% include 'index/update/base/footer.html' %}
+    {% include 'index/update/base/scrip.html' %}
+    <script>
+
+    </script>
+  </body>
+</html>

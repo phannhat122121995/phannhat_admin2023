@@ -8,24 +8,19 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
 from Order.models import Order, ProductTotalInCart
-from manage_index.models import UserProfile, Product, video_list
+from manage_index.models import UserProfile, Product, video_list, couse_title
 from django.contrib.auth.hashers import make_password
 
 @login_required
 def indexprofile(request):
     current_user = request.user
-    # profile = UserProfile.objects.get(user_id=current_user.id)
-    # context = {'profile': profile,
-    #            'current_user': current_user,
-    #            }
-    # return render(request, 'index/user/detail_user.html', context)
     try:
         profile = UserProfile.objects.get(user_id=current_user.id)
         context = {
             'profile': profile,
             'current_user': current_user,
         }
-        return render(request, 'index/user/detail_user.html', context)
+        return render(request, 'index/update/user/detail_user.html', context)
     except ObjectDoesNotExist:
         # Xử lý khi UserProfile không tồn tại
         # Ví dụ: gán profile một giá trị mặc định hoặc redirect đến trang khác
@@ -34,7 +29,7 @@ def indexprofile(request):
             'profile': profile,
             'current_user': current_user,
         }
-        return render(request, 'index/user/detail_user.html', context)
+        return render(request, 'index/update/user/detail_user.html', context)
 
 
 @login_required
@@ -86,9 +81,9 @@ def update_pr(request, id_user):
     context = {'updatepr': get_pro,
                'current_user': current_user,
                }
+    return render(request, 'index/update/user/update_profile.html', context)
 
-
-    return render(request, 'index/user/update_profile.html',context)
+    # return render(request, 'index/user/update_profile.html',context)
 
 
 @login_required
@@ -98,7 +93,8 @@ def user_oder(request):
     context = {'order': order,
                'current_user': current_user,
                }
-    return render(request, 'index/user/user_order.html', context)
+    return render(request, 'index/update/user/user_oder.html', context)
+    # return render(request, 'index/user/user_order.html', context)
 
 
 @login_required
@@ -113,7 +109,8 @@ def detail_oder(request,id_oder):
         'total':total,
         'get_code':get_code,
     }
-    return render(request, 'index/user/detail_order.html', context)
+    return render(request, 'index/update/user/detail_oder.html', context)
+    # return render(request, 'index/user/detail_order.html', context)
 
 
 @login_required
@@ -136,17 +133,18 @@ def change_password(request):
             else:
                 print("pass lỗi")
                 messages.warning(request, "Mật mới không chính xác! khuyến cáo đặt ít nhất 8 ky tự gồm viết hoa ký tự đặt biệt")
-                return render(request, 'auth/update_password.html')
+                return render(request, 'index/update/user/update_password.html')
+                # return render(request, 'auth/update_password.html')
         else:
             messages.warning(request, "Mật khẩu củ không chính xác!")
-            return render(request, 'auth/update_password.html', )
-    return render(request, 'auth/update_password.html')
+            return render(request, 'index/update/user/update_password.html')
+    return render(request, 'index/update/user/update_password.html')
 
 
 @login_required
 def logout_func(request):
     logout(request)
-    return render(request, 'index/index.html')
+    return render(request, 'index/update/index.html')
 
 
 def create_profile(request):
@@ -199,7 +197,8 @@ def create_profile(request):
     context = {
                'current_user': current_user,
                }
-    return render(request, 'index/user/create_profile.html', context)
+    return render(request, 'index/update/user/create_profile.html', context)
+    # return render(request, 'index/user/create_profile.html', context)
 
 
 
@@ -207,32 +206,63 @@ def create_profile(request):
 def detail_pro_bought(request, id):
     current_user = request.user
     try:
-        get_status_s = Order.objects.get(status="Completed", user=current_user.id)
+        # get_status_s = Order.objects.get(status="Completed", user=current_user.id)
+        get_status_s = Order.objects.filter(status="Completed", user=current_user.id).first()
     except:
         context = {
             'show_message': "Hãy chờ đơn hàng được thanh toán"
         }
-        return render(request, 'index/user/detail_pro_bougth.html', context)
-    if get_status_s:
-        get_oder_detail = ProductTotalInCart.objects.filter(order_id=get_status_s.id)
-        get_id = []
-        for rs in get_oder_detail:
-            get_id.append(rs.product.id)
-        if id in get_id:
-            get_pro = Product.objects.get(id=id)
-            get_videos = video_list.objects.filter(product_id=id)
-            context = {
-                'get_pro': get_pro,
-                'get_status_s': get_status_s,
-                'get_videos': get_videos,
-            }
-            return render(request, 'index/user/detail_pro_bougth.html', context)
-        else:
-            context = {
-                'show_message': "Hãy chờ đơn hàng được thanh toán"
-            }
-            return render(request, 'index/user/detail_pro_bougth.html', context)
-    context = {
-        'show_message': "Hãy chờ đơn hàng được thanh toán"
-    }
-    return render(request, 'index/user/detail_pro_bougth.html', context)
+        return render(request, 'index/update/user/detail_pro_bougth.html', context)
+
+    if get_status_s.id:
+        list_ = []
+        a = Order.objects.filter(status="Completed", user=current_user.id)
+        for rs in a:
+            list_.append(rs.id)
+        print(list_)
+        getidd = ProductTotalInCart.objects.filter(order_id__in=list_)
+        for rs in getidd:
+            print(id)
+            a = rs.product_id
+            if id == a:
+                print("có một sản phẩm đã mua", a)
+                get_list_video = couse_title.objects.filter(product_id=id).order_by('ordinal_numbers')
+                context = {
+                    'get_list_video': get_list_video,
+                }
+                return render(request, 'index/update/user/detail_pro_bougth.html', context)
+        context = {
+            'show_message': "Hãy chờ đơn hàng được thanh toán"
+        }
+        return  render(request, 'index/update/user/detail_pro_bougth.html', context)
+
+
+        # get_list_video = couse_title.objects.filter(product_id=id).order_by('ordinal_numbers')
+        # get_oder_detail = ProductTotalInCart.objects.filter(order_id=get_status_s.id)
+        # get_id = []
+        # for rs in get_oder_detail:
+        #     get_id.append(rs.product.id)
+        # print("------------")
+        # print(get_id)
+        # print("------------")
+        # if id in get_id:
+        #     get_pro = Product.objects.get(id=id)
+        #     get_videos = couse_title.objects.filter(product_id=id)
+        #     get_list_video = couse_title.objects.filter(product_id=id).order_by('ordinal_numbers')
+        #     context = {
+        #         'get_pro': get_pro,
+        #         'get_status_s': get_status_s,
+        #         'get_videos': get_videos,
+        #         'get_list_video': get_list_video,
+        #     }
+        #     return render(request, 'index/update/user/detail_pro_bougth.html', context)
+
+    #     else:
+    #         context = {
+    #             'show_message': "Hãy chờ đơn hàng được thanh toán"
+    #         }
+    #         return render(request, 'index/update/user/detail_pro_bougth.html', context)
+    # context = {
+    #     'show_message': "Hãy chờ đơn hàng được thanh toán"
+    # }
+    # return render(request, 'index/update/user/detail_pro_bougth.html', context)

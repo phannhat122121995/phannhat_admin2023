@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load humanize %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Chi tiết oder</title>
+
+    {% include 'index/update/base/home_base.html' %}
+    </head>
+    <body>
+
+   {% include 'index/update/base/menu.html' %}
+    <!-- ***** Main Banner Area Start ***** -->
+    <div id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Chi tiết mua hàng</li>
+                      </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-12">
+                    <h2 class="display-5 mb-3">Thông tin chi tiết đơn hàng <strong style="color: #0c4128">{{ get_code.code }}</strong> </h2>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Tên sản phẩm</th>
+                          <th scope="col">Số lượng</th>
+                          <th scope="col">Tổng tiền</th>
+                          <th scope="col">Ngày giờ Oder</th>
+                          <th scope="col">Xem chi tiết</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for rs in orderitems %}
+                        <tr>
+                          <th scope="row">{{ rs.product.title }}</th>
+                          <td>{{ rs.quantity }}</td>
+                          <td>{{ rs.price | intcomma:False }}</td>
+                          <td>{{ rs.create_at }}</td>
+                          <td> <p class="text-info"><a href="{% url 'detail_pro_bought' rs.product.id %}">Xem chi tiết</a> </p></td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                    <h3>Tổng tiền: {{ total | intcomma:False }} VND</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Main Banner Area End ***** -->
+    {% include 'index/update/base/footer.html' %}
+    {% include 'index/update/base/scrip.html' %}
+    <script>
+
+    </script>
+  </body>
+</html>

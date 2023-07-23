@@ -15,7 +15,7 @@
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="index.html" class="logo">
+                        <a href="{% url 'index' %}" class="logo">
                             <img src="{% static 'assets/update_new/images/klassy-logo.png' %}" align="klassy cafe html template">
                         </a>
                         <!-- ***** Logo End ***** -->
@@ -37,13 +37,20 @@
                             <li class="scroll-to-section"><a href="#menu">Khóa học của tôi</a></li>
 {#                            <li class="scroll-to-section"><a href="#chefs">Chefs</a></li>#}
                             <li class="submenu">
-                                <a href="javascript:;">Đăng nhập</a>
-                                <ul>
-                                    <li><a href="#">Features Page 1</a></li>
-                                    <li><a href="#">Features Page 2</a></li>
-                                    <li><a href="#">Features Page 3</a></li>
-                                    <li><a href="#">Features Page 4</a></li>
-                                </ul>
+                                <a href="javascript:;">Tài khoản</a>
+                                {% if user.id is not None %}
+                                    <ul>
+                                        <li><a href="{% url 'indexprofile' %}">Thông tin</a></li>
+                                        <li><a href="{% url 'user_oder_title' %}">Các khóa học đã mua</a></li>
+                                        <li><a href="{% url 'change_password' %}">Đổi mật khẩu</a></li>
+                                        <li><a href="{% url 'logout_func' %}">Đăng xuất</a></li>
+                                    </ul>
+                                {% else %}
+                                    <ul>
+                                        <li><a href="{% url 'login_user' %}">Đăng nhập</a></li>
+                                        <li><a href="{% url 'register' %}">Đăng ký</a></li>
+                                    </ul>
+                                {% endif %}
                             </li>
                             <!-- <li class=""><a rel="sponsored" href="https://templatemo.com" target="_blank">External URL</a></li> -->
                             <li class="scroll-to-section"><a href="#reservation">Liên hệ</a></li>

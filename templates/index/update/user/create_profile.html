@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load humanize %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Tài khoản</title>
+
+    {% include 'index/update/base/home_base.html' %}
+    </head>
+    <body>
+
+   {% include 'index/update/base/menu.html' %}
+    <!-- ***** Main Banner Area Start ***** -->
+    <div id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Thêm thông tin cá nhân</li>
+                      </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-12">
+                    <h1 class="display-5 mb-3">Thêm thông tin người dùng {{ current_user.id }}</h1>
+                        <h4>
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }}"><i class="bi bi-check-circle"></i>
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </h4>
+                        <form action="{% url 'create_profile'  %}"  method="POST"  enctype="multipart/form-data">
+                        {% csrf_token %}
+                          <div class="form-row">
+                            <div class="form-group col-md-3">
+                              <label for="inputEmail4">Họ</label>
+                              <input type="text" class="form-control" name="first_name" id="inputEmail4" value="{{ current_user.first_name }}">
+                            </div>
+                            <div class="form-group col-md-3">
+                              <label for="inputPassword4">Tên</label>
+                              <input type="text" class="form-control" name="last" id="inputPassword4" value="{{ current_user.last_name }}">
+                            </div>
+                            <div class="form-group col-md-3">
+                              <label for="inputPassword4">Email</label>
+                              <input type="text" class="form-control" name="mail" id="inputPassword4" value="{{ current_user.email }}">
+                            </div>
+                            <div class="form-group col-md-3">
+                              <label for="inputPassword4">Số điện thoại</label>
+                              <input type="text" class="form-control" name="phone" id="inputPassword4" value="{{ updatepr.phone }}">
+                            </div>
+                            <div class="form-group col-md-3">
+                              <label for="inputPassword4">Quốc gia</label>
+                              <input type="text" class="form-control" name="country" id="inputPassword4" value="{{ updatepr.country }}">
+                            </div>
+                            <div class="form-group col-md-3">
+                              <label for="inputPassword4">Thành phố</label>
+                              <input type="text" class="form-control" name="city" id="inputPassword4" value="{{ updatepr.city }}">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="inputPassword4">Địa chỉ</label>
+                              <input type="text" class="form-control" name="address" id="inputPassword4" value="{{ updatepr.address }}">
+                            </div>
+                            <div class="form-group col-md-5">
+                              <label for="inputPassword4">Thêm ảnh mới</label>
+                              <input name="image" class="form-control" type="file" id="formFile" >
+                            </div>
+                          </div>
+
+
+                          <button type="submit" class="btn btn-primary">Cập nhập</button>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Main Banner Area End ***** -->
+    {% include 'index/update/base/footer.html' %}
+    {% include 'index/update/base/scrip.html' %}
+    <script>
+
+    </script>
+  </body>
+</html>

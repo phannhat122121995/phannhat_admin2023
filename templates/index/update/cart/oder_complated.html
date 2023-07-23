@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load humanize %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Giỏ hàng</title>
+
+    {% include 'index/update/base/home_base.html' %}
+    </head>
+    <body>
+
+   {% include 'index/update/base/menu.html' %}
+    <!-- ***** Main Banner Area Start ***** -->
+    <div id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Đặt thành công</li>
+                      </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-12">
+                    <div class="container h-100">
+                          <h2>Cám ơn bạn đã đặt hàng tới chúng tôi</h2>
+                          <h4>Mã số hóa đơn của bạn là: {{ ordercode }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Main Banner Area End ***** -->
+    {% include 'index/update/base/footer.html' %}
+    {% include 'index/update/base/scrip.html' %}
+    <script>
+
+    </script>
+  </body>
+</html>

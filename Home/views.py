@@ -19,7 +19,7 @@ def index(request):
 def detai_product(request, slug):
     get_detail_pro = Product.objects.get(slug=slug)
     id = get_detail_pro.id
-    get_list_video = couse_title.objects.filter(product_id=id)
+    get_list_video = couse_title.objects.filter(product_id=id).order_by('ordinal_numbers')
     comments = CommentPro.objects.filter(product_id=id, status='True')
     get_file = cource_video.objects.filter()
     context = {
@@ -36,7 +36,7 @@ def addcommentpr(request, id):
     current_user = request.user
     id = int(id)
     if request.method == 'POST':
-        rate = request.POST['rate']
+        rate = request.POST['star']
         comment = request.POST['comment']
         ip = request.META.get('REMOTE_ADDR')
         CommentPro.objects.create(product_id=id, user=current_user, rate=rate, comment=comment, ip=ip)
