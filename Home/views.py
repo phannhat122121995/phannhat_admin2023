@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
+from Home.models import Messagers
 from manage_index.models import Product, CommentPro, video_list, couse_title, cource_video
 
 
@@ -41,5 +42,17 @@ def addcommentpr(request, id):
         ip = request.META.get('REMOTE_ADDR')
         CommentPro.objects.create(product_id=id, user=current_user, rate=rate, comment=comment, ip=ip)
         messages.success(request, "cám ơn bạn đã đánh giá sản phẩm.")
+        return HttpResponseRedirect(url)
+    return HttpResponseRedirect(url)
+
+
+def addmessager(request):
+    url = request.META.get('HTTP_REFERER')  # get last url
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        phone = request.POST['phone']
+        message = request.POST['message']
+        Messagers.objects.create(Fullname=name, Email=email, Phone=phone, Note=message)
         return HttpResponseRedirect(url)
     return HttpResponseRedirect(url)

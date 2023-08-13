@@ -94,6 +94,7 @@ class cource_video(models.Model):
     cource = models.ForeignKey(couse_title, on_delete=models.SET_NULL, blank=True, null=True)
     ordinal_numbers = models.IntegerField(blank=True)
     titlevideo = models.CharField(max_length=255, blank=True)
+    vimeo_link = models.URLField(blank=True)
     videos = models.FileField(upload_to='videos/', blank=True)
     pdffile = models.FileField(upload_to='filepdf/', blank=True)
 

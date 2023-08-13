@@ -20,3 +20,19 @@
 
     <!-- Global Init -->
     <script src="{%  static 'assets/update_new/js/custom.js' %}"></script>
+ <script>
+     $(document).ready(function() {
+            $.ajax({
+                url: "{% url 'cart_item_count' %}",
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    updateCartItemCount(response.count);
+                }
+            });
+
+            function updateCartItemCount(count) {
+                $('#cart-item-count').text(count);
+            }
+        });
+ </script>

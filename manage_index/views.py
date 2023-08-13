@@ -10,6 +10,7 @@ import json
 from django.urls import reverse
 
 from Blog.models import CommentBlog, Blog
+from Home.models import Messagers
 from Order.models import Order, ProductTotalInCart
 from manage_index.models import Category, Brands, Product, ProductForm, ImagssForm, Imagss, CreateUserForm, UserProfile, \
     CommentCourse, CommentPro, video_list, couse_title, cource_video
@@ -694,7 +695,7 @@ def login_user(request):
                 if request.user.is_staff:
                     return render(request, 'manager/index.html')
                 else:
-                    return render(request, 'index/index.html')
+                    return render(request, 'index/update/index.html')
             else:
                 # Incorrect credentials, let's throw an error to the screen.
 
@@ -1012,6 +1013,7 @@ def addvideopdf(request):
             title = request.POST['title']
             get_number = request.POST['get_number']
             titlevideo = request.POST['titlevideo']
+            link_video = request.POST['link_video']
             try:
                 videos = request.FILES['videos']
                 allowed_extension = '.mp4'
@@ -1039,6 +1041,7 @@ def addvideopdf(request):
                 data.videos = videos
             except:
                 pass
+            data.vimeo_link = link_video
             data.cource_id = title_pro
             data.title = title
             data.titlevideo = titlevideo
@@ -1051,7 +1054,9 @@ def addvideopdf(request):
                 title = request.POST['title']
                 get_number = request.POST['get_number']
                 titlevideo = request.POST['titlevideo']
+                link_video = request.POST['link_video']
                 data = cource_video()
+                data.vimeo_link = link_video
                 data.cource_id = title_pro
                 data.title = title
                 data.titlevideo = titlevideo
@@ -1080,6 +1085,7 @@ def updatevideopdf(request, id):
             title = request.POST['title']
             get_number = request.POST['get_number']
             titlevideo = request.POST['titlevideo']
+            link_video = request.POST['link_video']
             try:
                 videos = request.FILES['videos']
                 allowed_extension = '.mp4'
@@ -1106,6 +1112,7 @@ def updatevideopdf(request, id):
                 get_video.videos = videos
             except:
                 pass
+            get_video.vimeo_link = link_video
             get_video.cource_id = title_pro
             get_video.title = title
             get_video.titlevideo = titlevideo
@@ -1114,11 +1121,13 @@ def updatevideopdf(request, id):
             messages.success(request, 'Bạn đã sửa thành công')
         else:
             if request.method == 'POST':
+                link_video = request.POST['link_video']
                 title_pro = request.POST['title_pro']
                 title = request.POST['title']
                 get_number = request.POST['get_number']
                 titlevideo = request.POST['titlevideo']
                 get_video.cource_id = title_pro
+                get_video.vimeo_link = link_video
                 get_video.title = title
                 get_video.titlevideo = titlevideo
                 get_video.ordinal_numbers = get_number
@@ -1151,4 +1160,14 @@ def delete_video_pdf(request, id):
         delete_pro = cource_video.objects.get(id=id)
         delete_pro.delete()
         return HttpResponseRedirect(reverse('getlistvideopdf'))
+    return render(request, 'index/index.html')
+
+@login_required
+def list_massager(request):
+    if request.user.is_staff:
+        get_list_ma = Messagers.objects.all()
+        context = {
+            'get_list_ma': get_list_ma,
+        }
+        return render(request, 'manager/list_massager.html', context)
     return render(request, 'index/index.html')

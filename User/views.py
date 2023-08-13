@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 from django.urls import reverse
-
+from django.http import Http404
 from Order.models import Order, ProductTotalInCart
 from manage_index.models import UserProfile, Product, video_list, couse_title
 from django.contrib.auth.hashers import make_password
@@ -214,7 +214,7 @@ def detail_pro_bought(request, id):
         }
         return render(request, 'index/update/user/detail_pro_bougth.html', context)
 
-    if get_status_s.id:
+    if get_status_s is not None and get_status_s.id:
         list_ = []
         a = Order.objects.filter(status="Completed", user=current_user.id)
         for rs in a:
@@ -231,38 +231,10 @@ def detail_pro_bought(request, id):
                     'get_list_video': get_list_video,
                 }
                 return render(request, 'index/update/user/detail_pro_bougth.html', context)
+
+    else:
         context = {
             'show_message': "Hãy chờ đơn hàng được thanh toán"
         }
-        return  render(request, 'index/update/user/detail_pro_bougth.html', context)
+        return  render(request, 'index/update/user/detail_pro_bougth.html',context)
 
-
-        # get_list_video = couse_title.objects.filter(product_id=id).order_by('ordinal_numbers')
-        # get_oder_detail = ProductTotalInCart.objects.filter(order_id=get_status_s.id)
-        # get_id = []
-        # for rs in get_oder_detail:
-        #     get_id.append(rs.product.id)
-        # print("------------")
-        # print(get_id)
-        # print("------------")
-        # if id in get_id:
-        #     get_pro = Product.objects.get(id=id)
-        #     get_videos = couse_title.objects.filter(product_id=id)
-        #     get_list_video = couse_title.objects.filter(product_id=id).order_by('ordinal_numbers')
-        #     context = {
-        #         'get_pro': get_pro,
-        #         'get_status_s': get_status_s,
-        #         'get_videos': get_videos,
-        #         'get_list_video': get_list_video,
-        #     }
-        #     return render(request, 'index/update/user/detail_pro_bougth.html', context)
-
-    #     else:
-    #         context = {
-    #             'show_message': "Hãy chờ đơn hàng được thanh toán"
-    #         }
-    #         return render(request, 'index/update/user/detail_pro_bougth.html', context)
-    # context = {
-    #     'show_message': "Hãy chờ đơn hàng được thanh toán"
-    # }
-    # return render(request, 'index/update/user/detail_pro_bougth.html', context)

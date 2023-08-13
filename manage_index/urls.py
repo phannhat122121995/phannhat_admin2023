@@ -40,6 +40,7 @@ urlpatterns = [
     path('update-videos-pdf/<int:id>', views.updatevideopdf, name="updatevideopdf"),
     path('list-videos-pdf/', views.getlistvideopdf, name="getlistvideopdf"),
     path('delete-videos-pdf/<int:id>', views.delete_video_pdf, name="delete_video_pdf"),
+    path('list-massager/', views.list_massager, name="list_massager"),
     # path('register/', views.register, name='register'),
 ]
 
